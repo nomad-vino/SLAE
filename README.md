@@ -11,5 +11,5 @@ we will look at writing shellcode, encoders, decoders, crypters and other advanc
 
 ---------------------------------------------------------------------------------------------------------------------------
 This blog post has been created for completing the requirements of the SecurityTube Linux Assembly Expert cerfication:
-hLp://securitytube-­‐training.com/online-­‐courses/securitytube-­‐linux-­‐assembly-­‐expert/
+http://securitytube-­‐training.com/online-­‐courses/securitytube-­‐linux-­‐assembly-­‐expert/
 Student ID: SLAE-437
