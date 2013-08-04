@@ -20,7 +20,7 @@ _start:
 	; 1) SOCKET SYSCALL 
 	;-------------------------------------------------------
 	
-	; socket(int domain, int type, int protocol);
+	; socket(int domain, int type, int protocol)
 	; socketcall(int call, unsigned long *args)
 	
 	; EBX arg1 = call 
@@ -46,7 +46,7 @@ _start:
 	; 2) BIND SYSCALL
 	;-------------------------------------------------------
 
-	; bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
+	; bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen)
 	; socketcall(int call, unsigned long *args)
 	
 	
@@ -101,7 +101,7 @@ _start:
 	;-------------------------------------------------------
 
 
-	; accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);
+	; accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen)
 	; socketcall(int call, unsigned long *args)
 
 	; EBX arg1= call
@@ -124,7 +124,7 @@ _start:
 	; 5) DUP2 SYSCALL 
 	;-------------------------------------------------------
 
-	; int dup2(int oldfd, int newfd);
+	; int dup2(int oldfd, int newfd)
 	
 	; EBX arg1=oldf
 	xchg eax, ebx
