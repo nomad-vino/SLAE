@@ -1,3 +1,10 @@
+; Filename  : bind_tcp_shell.asm
+; Author    : M.Acosta <amcx62[_at_]gmail[_dot_]com>
+; Date      : 2013 August
+; Location  : Lima(Peru)
+; Desc      : Bind Tcp Shellcode
+; Tested on : Linux/x86 (Ubuntu SMP 3.2.0-49-generic-pae)
+
 global _start
 
 section .text
