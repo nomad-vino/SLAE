@@ -1,0 +1,46 @@
+1.Install PyInstaller :
+ 	git clone git://github.com/pyinstaller/pyinstaller.git
+ 	
+2. Get a shellcode :
+  ./get_shellcode.sh hello_shellcode
+  \x31\xc0\xb0\x04\x31\xdb\xb3\x01\x31\xd2\x52\x68\x72\x6c\x64\x0a\x68\x6f\x20\x57\x6f\x68\x48\x65\x6c\x6c\x89\xe1\xb2\x0c\xcd\x80\x31\xc0\xb0\x01\x31\xdb\xcd\x80
+
+3. Encrypted the shellcode with a secret key (Ejm abcdefgh).  
+
+python DES_Crypter_shellcode.py abcdefgh
+ [*] DES CRYPTER SHELLCODE
+ [*] ---------------------
+ 
+ [*] Shellcode Length : 40 
+ [*] Shellcode : \x31\xc0\xb0\x04\x31\xdb\xb3\x01\x31\xd2\x52\x68\x72\x6c\x64\x0a\x68\x6f\x20\x57\x6f\x68\x48\x65\x6c\x6c\x89\xe1\xb2\x0c\xcd\x80\x31\xc0\xb0\x01\x31\xdb\xcd\x80
+
+ [*] Secret key : abcdefgh
+ [*] Random IV : \x95\x3f\x79\x4a\xea\x12\x69\x8d
+
+ [*] Encrypted shellcode Length: 192
+ [*] Encrypted Shellcode : \xac\x0f\xb6\x66\xee\x59\xc6\xe8\x19\xeb\x80\x5d\xa5\x40\x82\xaf\x99\xdb\xdf\xe6\xe7\xbc\xeb\x45\x29\xc7\xe4\xb4\x02\xf1\x04\xdc\xe7\x1d\x3a\x96\xc1\x6c\xfd\xa5\xe4\x06\xcb\xeb\x06\x8a\xe8\xd2
+ 
+4. Use DES_Decrypter_Shellcode.py to decrypt the shellcode :
+encrypted_shellcode= <-- Encrypted Shellcode -->
+
+decrypt_shellcode=""
+
+secret_key = <-- Secret Key -->
+iv = <-- IV -->
+
+def to_hex(shellcode):
+        shellhex=""
+        for x in bytearray(shellcode) :
+                shellhex += '\\x'
+                shellhex += '%02x' % (x & 0xff)
+        return shellhex
+
+print " [*] Decrypting Shellcode ..."
+des = DES.new(secret_key, DES.MODE_CFB, iv)
+decrypt_shellcode=des.decrypt(encrypted_shellcode)
+print " [*] Executing Shellcode ..."
+memorywithshell = create_string_buffer(decrypt_shellcode, len(decrypt_shellcode))
+shell = cast(memorywithshell,CFUNCTYPE(c_void_p))
+shell()
+
+5. Generate a elf executable 
