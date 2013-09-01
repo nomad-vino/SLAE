@@ -1,11 +1,10 @@
-/*
- Filename  : mkdir_shellcode.asm
- Author    : M.Acosta snow <amcx62[_at_]gmail[_dot_]com>
- Date      : 2013 August
- Location  : Lima(Peru)
- Desc	     : mkdir & exit shellcode 
- Tested on : Linux/x86 (Ubuntu SMP 3.2.0-49-generic-pae)
-*/
+;Filename  : mkdir_shellcode.asm
+;Author    : M.Acosta snow <amcx62[_at_]gmail[_dot_]com>
+;Date      : 2013 August
+;Location  : Lima(Peru)
+;Desc	     : mkdir & exit shellcode 
+;Tested on : Linux/x86 (Ubuntu SMP 3.2.0-49-generic-pae)
+
 global _start			
 
 section .text
