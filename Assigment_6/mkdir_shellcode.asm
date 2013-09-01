@@ -10,11 +10,9 @@ global _start
 section .text
 _start:
 
-;mkdir()
 xor eax,eax
 push eax
-push 0x65616c73 ;hackslae
-push 0x6b636168
+push 0x6b636168;hack
 xor ebx,ebx
 mov ebx,esp
 add al,0x27
@@ -25,3 +23,4 @@ int 0x80
 mov al,0x1
 xor ebx,ebx
 int 0x80
+
